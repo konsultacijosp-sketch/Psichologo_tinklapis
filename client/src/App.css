@@ -1,0 +1,38 @@
+.pilna_deze {
+  width: 1800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 700px;
+}
+
+.foto_uzrasas {
+  display: flex;
+  width: 1200px;
+}
+
+.profilio_foto_deze {
+  width: 500px;
+  margin-right: 20px;
+}
+.profilio_foto {
+  width: 500px;
+  object-fit: cover;
+  height: 500px;
+  border-radius: 100%;
+}
+
+.Registracija {
+  background-color: rgb(39, 39, 171);
+  color: bisque;
+  width: 200px;
+  height: 50px;
+  border-radius: 20px;
+  border: none;
+  font-size: 20px;
+}
+
+.Registracija:hover {
+  background-color: rgb(26, 26, 119);
+  cursor: pointer;
+}
