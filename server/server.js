@@ -15,10 +15,15 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // true prievadui 465
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
   },
 });
 
@@ -154,11 +159,9 @@ app.post("/api/appointments", async (req, res) => {
       else console.log("Admin pranešimas išsiųstas: " + info.response);
     });
 
-    res
-      .status(201)
-      .json({
-        message: "Registracija sėkmingai išsaugota ir laiškai išsiųsti!",
-      });
+    res.status(201).json({
+      message: "Registracija sėkmingai išsaugota ir laiškai išsiųsti!",
+    });
   } catch (error) {
     console.error("Klaida išsaugant:", error);
     res.status(500).json({ error: "Serverio klaida išsaugant registraciją" });
