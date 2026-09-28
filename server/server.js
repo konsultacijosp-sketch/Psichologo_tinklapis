@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     user: "resend",
-    pass: process.env.EMAIL_PASS, // Čia įsikels tavo naujas Resend raktas
+    pass: process.env.EMAIL_PASS, // Čia įsikels tavo Resend API raktas iš Render Environment kintamųjų
   },
 });
 
@@ -36,7 +36,7 @@ mongoose
     console.error("Klaida jungiantis prie MongoDB:", err);
   });
 
-// --- NAUJA: Maršrutas serverio pažadinimui (Preemptive ping) ---
+// --- Maršrutas serverio pažadinimui (Preemptive ping) ---
 app.get("/api/ping", (req, res) => res.status(200).send("Pabudau!"));
 
 // BAZINIS SAVAITĖS TVARKARAŠTIS (Jei dar nėra išsaugoto)
@@ -133,7 +133,7 @@ app.post("/api/appointments", async (req, res) => {
     }
 
     const clientMailOptions = {
-      from: process.env.EMAIL_USER,
+      from: "onboarding@resend.dev", // Naudojamas Resend testinis siuntėjas
       to: email,
       subject: clientSubject,
       text: clientText,
@@ -145,8 +145,8 @@ app.post("/api/appointments", async (req, res) => {
     });
 
     const adminMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      from: "onboarding@resend.dev", // Naudojamas Resend testinis siuntėjas
+      to: process.env.EMAIL_USER, // Tavo asmeninis el. paštas gavimui
       subject: `Nauja registracija: ${name} (${date} ${time})`,
       text: `Gavote naują vizito registraciją!\n\nVardas: ${name}\nEl. paštas: ${email}\nData: ${date}\nLaikas: ${time}\nPriežastis: ${reason || "Nenurodyta"}\n\nPrisijunkite prie /admin valdymo skydelio peržiūrėti daugiau.`,
     };
