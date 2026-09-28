@@ -26,7 +26,6 @@ function Admin() {
 
   const ADMIN_PASSWORD = "Oskaras1995+";
 
-  // Visi galimi laikai, iš kurių galite rinktis admin panelėje
   const possibleHours = [
     "08:00",
     "09:00",
@@ -66,8 +65,12 @@ function Admin() {
   const fetchData = () => {
     setLoading(true);
     Promise.all([
-      fetch("http://localhost:5000/api/appointments").then((res) => res.json()),
-      fetch("http://localhost:5000/api/settings").then((res) => res.json()),
+      fetch(`${import.meta.env.VITE_API_URL}/api/appointments`).then((res) =>
+        res.json(),
+      ),
+      fetch(`${import.meta.env.VITE_API_URL}/api/settings`).then((res) =>
+        res.json(),
+      ),
     ])
       .then(([apptData, settsData]) => {
         setAppointments(apptData);
@@ -86,7 +89,7 @@ function Admin() {
 
   const handleDeleteAppointment = (id) => {
     if (window.confirm("Ar tikrai norite atšaukti ir ištrinti šį vizitą?")) {
-      fetch(`http://localhost:5000/api/appointments/${id}`, {
+      fetch(`${import.meta.env.VITE_API_URL}/api/appointments/${id}`, {
         method: "DELETE",
       })
         .then((res) => {
@@ -102,7 +105,7 @@ function Admin() {
   };
 
   const handleSaveSettings = () => {
-    fetch("http://localhost:5000/api/settings", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/settings`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(settings),
@@ -135,9 +138,9 @@ function Admin() {
     const currentDaySlots = settings.weeklySchedule[dayId] || [];
     let newSlots;
     if (currentDaySlots.includes(time)) {
-      newSlots = currentDaySlots.filter((t) => t !== time); // Išjungiame
+      newSlots = currentDaySlots.filter((t) => t !== time);
     } else {
-      newSlots = [...currentDaySlots, time].sort(); // Įjungiame
+      newSlots = [...currentDaySlots, time].sort();
     }
     setSettings({
       ...settings,
@@ -300,7 +303,6 @@ function Admin() {
                   <div className="time-row-label">{time}</div>
                   {weekDays.map((dateStr) => {
                     const booking = getBookingForSlot(dateStr, time);
-                    // Tikriname ar ši valanda išvis yra aktyvi pagal nustatymus, kad atvaizduotume šviesiau, jei ne
                     const dayOfWeek = new Date(dateStr).getDay().toString();
                     const isHourActive =
                       settings.weeklySchedule[dayOfWeek]?.includes(time);

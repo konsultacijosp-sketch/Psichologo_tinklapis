@@ -10,9 +10,9 @@ import { translations } from "./translations";
 // Sutvarkytas, interaktyvus KET komponentas
 function KET({ language }) {
   const [activeElementIndex, setActiveElementIndex] = useState(1);
-  const t = translations[language].ket;
+  const t = translations[language]?.ket || translations.lt.ket;
 
-  const currentInfo = t.model[activeElementIndex];
+  const currentInfo = t.model?.[activeElementIndex] || t.model?.[0] || {};
 
   return (
     <div className="ket-container">
@@ -29,7 +29,7 @@ function KET({ language }) {
 
       <div className="ket-model-wrapper">
         <div className="ket-diagram-cards">
-          {t.model.map((el, index) => (
+          {t.model?.map((el, index) => (
             <button
               key={el.id}
               type="button"
@@ -52,7 +52,7 @@ function KET({ language }) {
       </div>
 
       <div className="ket-benefits-grid">
-        {t.benefits.map((benefit, index) => (
+        {t.benefits?.map((benefit, index) => (
           <div className="benefit-col" key={index}>
             <h4>{benefit.title}</h4>
             <p>{benefit.desc}</p>
@@ -67,7 +67,7 @@ function KET({ language }) {
 function Home({ language, toggleLanguage }) {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
-  const t = translations[language];
+  const t = translations[language] || translations.lt;
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -110,7 +110,7 @@ function Home({ language, toggleLanguage }) {
             <div className="hero-portrait">
               <div className="image-frame">
                 <img
-                  src="./profilio.jpg"
+                  src="/profilio.jpg"
                   alt="Psichologas Oskaras Jakšaitis-Brežinskas"
                   className="portrait-img"
                 />
@@ -313,10 +313,10 @@ function App() {
     return localStorage.getItem("appLanguage") || "lt";
   });
 
-  // --- NAUJA: Pažadiname serverį vos atidarius svetainę fone ---
+  // --- Pažadiname serverį vos atidarius svetainę fone (naudojant VITE_API_URL) ---
   useEffect(() => {
-    fetch("http://localhost:5000/api/ping").catch(() => {
-      // Ignoruojame klaidas, nes vartotojui to matyti nereikia
+    fetch(`${import.meta.env.VITE_API_URL}/api/ping`).catch(() => {
+      // Ignoruojame klaidas fone
     });
   }, []);
 

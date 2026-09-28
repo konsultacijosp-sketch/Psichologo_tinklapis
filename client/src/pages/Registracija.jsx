@@ -30,8 +30,12 @@ function Registracija() {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:5000/api/appointments").then((res) => res.json()),
-      fetch("http://localhost:5000/api/settings").then((res) => res.json()),
+      fetch(`${import.meta.env.VITE_API_URL}/api/appointments`).then((res) =>
+        res.json(),
+      ),
+      fetch(`${import.meta.env.VITE_API_URL}/api/settings`).then((res) =>
+        res.json(),
+      ),
     ])
       .then(([apptData, settsData]) => {
         setBookedSlots(apptData);
@@ -214,7 +218,7 @@ function Registracija() {
     setLoading(true);
     setErrorMessage("");
 
-    fetch("http://localhost:5000/api/appointments", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/appointments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
