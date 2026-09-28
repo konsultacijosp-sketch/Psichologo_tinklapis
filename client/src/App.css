@@ -1,38 +1,686 @@
-.pilna_deze {
-  width: 1800px;
+/* ==========================================================================
+   1. BAZINIAI KINTAMIEJI IR NUSTATYMAI (Minimalistinis B&W stilius)
+   ========================================================================== */
+:root {
+  --black: #111111;
+  --black-soft: #222222;
+  --gray-dark: #555555;
+  --gray-mid: #888888;
+  --gray-light: #eaeaea;
+  --gray-bg: #fafafa;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  background-color: var(--white);
+  color: var(--black);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.section {
+  padding: 90px 0;
+}
+
+.border-top {
+  border-top: 1px solid var(--gray-light);
+}
+
+.bg-subtle {
+  background-color: var(--gray-bg);
+}
+
+/* ==========================================================================
+   2. HEADER (NAVIGACIJA)
+   ========================================================================== */
+.header {
+  border-bottom: 1px solid var(--gray-light);
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-inner {
+  height: 76px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 700px;
+  justify-content: space-between;
 }
 
-.foto_uzrasas {
+.brand {
   display: flex;
-  width: 1200px;
+  flex-direction: column;
 }
 
-.profilio_foto_deze {
-  width: 500px;
-  margin-right: 20px;
+.brand-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  letter-spacing: -0.02em;
 }
-.profilio_foto {
-  width: 500px;
+
+.brand-role {
+  font-size: 0.78rem;
+  color: var(--gray-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-outline-sm {
+  text-decoration: none;
+  border: 1px solid var(--black);
+  color: var(--black);
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-sm:hover {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+/* ==========================================================================
+   3. HERO SEKCIJA
+   ========================================================================== */
+.hero {
+  padding: 90px 0 80px 0;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 70px;
+  align-items: flex-start;
+}
+
+.hero-portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-frame {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--gray-light);
+  background-color: var(--gray-bg);
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  height: 500px;
-  border-radius: 100%;
+  filter: grayscale(100%) contrast(105%);
+  transition: filter 0.4s ease;
 }
 
-.Registracija {
-  background-color: rgb(39, 39, 171);
-  color: bisque;
-  width: 200px;
-  height: 50px;
-  border-radius: 20px;
-  border: none;
-  font-size: 20px;
+.portrait-img:hover {
+  filter: grayscale(0%);
 }
 
-.Registracija:hover {
-  background-color: rgb(26, 26, 119);
+.experience-tag {
+  margin-top: 18px;
+  font-size: 0.82rem;
+  color: var(--gray-dark);
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--gray-light);
+  padding-bottom: 4px;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-heading {
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--black);
+  letter-spacing: -0.02em;
+  margin-top: 6px;
+  margin-bottom: 20px;
+}
+
+.hero-lead {
+  font-size: 1.12rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--gray-dark);
+  margin-bottom: 32px;
+}
+
+/* Formatas ir kaina */
+.quick-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+  background-color: var(--gray-bg);
+  border: 1px solid var(--gray-light);
+  padding: 18px 22px;
+  margin-bottom: 32px;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-mid);
+  margin-bottom: 3px;
+}
+
+.spec-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.btn-dark {
+  background-color: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+  padding: 14px 34px;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.btn-dark:hover {
+  background-color: transparent;
+  color: var(--black);
+}
+
+.link-subtle {
+  text-decoration: none;
+  color: var(--gray-dark);
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.link-subtle:hover {
+  color: var(--black);
+}
+
+/* ==========================================================================
+   4. TEMOS / SPECIALIZACIJA
+   ========================================================================== */
+.section-header {
+  margin-bottom: 48px;
+}
+
+.section-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.topic-block h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--black);
+}
+
+.topic-block ul {
+  list-style: none;
+}
+
+.topic-block li {
+  font-size: 0.95rem;
+  color: var(--gray-dark);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+/* ==========================================================================
+   5. PROCESAS / ŽINGSNIAI (01-04)
+   ========================================================================== */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.step-item {
+  border-left: 1px solid var(--gray-light);
+  padding-left: 20px;
+}
+
+.step-num {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 14px;
+}
+
+.step-item h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.step-item p {
+  font-size: 0.88rem;
+  color: var(--gray-dark);
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   6. SUTVARKYTA KET SEKCIJA IR INTERAKTYVUS MODELIS
+   ========================================================================== */
+.ket-container {
+  width: 100%;
+}
+
+.ket-intro {
+  font-size: 1.12rem;
+  line-height: 1.65;
+  color: var(--black-soft);
+  max-width: 860px;
+  margin-bottom: 48px;
+}
+
+.ket-intro strong {
+  font-weight: 600;
+  color: var(--black);
+}
+
+.ket-model-wrapper {
+  margin-bottom: 60px;
+  border: 1px solid var(--gray-light);
+  background-color: var(--white);
+}
+
+.ket-diagram-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.model-card-btn {
+  background: var(--gray-bg);
+  border: none;
+  border-right: 1px solid var(--gray-light);
+  padding: 20px 14px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.model-card-btn:last-child {
+  border-right: none;
+}
+
+.model-step {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.model-sub {
+  font-size: 0.75rem;
+  color: var(--gray-mid);
+}
+
+.model-card-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.model-card-btn.active {
+  background-color: var(--white);
+  border-bottom: 2px solid var(--black);
+}
+
+.model-card-btn.active .model-step {
+  color: var(--black);
+}
+
+.model-card-btn.active .model-sub {
+  color: var(--black-soft);
+}
+
+.ket-detail-box {
+  padding: 36px 40px;
+  background-color: var(--white);
+}
+
+.detail-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-mid);
+  margin-bottom: 8px;
+}
+
+.detail-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 14px;
+}
+
+.detail-text {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--gray-dark);
+  max-width: 820px;
+}
+
+.ket-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding-top: 20px;
+}
+
+.benefit-col {
+  border-top: 1px solid var(--black);
+  padding-top: 18px;
+}
+
+.benefit-col h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 10px;
+}
+
+.benefit-col p {
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   7. DUK (FAQ)
+   ========================================================================== */
+.faq-container {
+  max-width: 820px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--gray-light);
+  padding: 22px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 500;
+  gap: 16px;
+}
+
+.faq-icon {
+  font-size: 1.3rem;
+  color: var(--gray-mid);
+  font-weight: 300;
+}
+
+.faq-answer {
+  margin-top: 14px;
+  font-size: 0.93rem;
+  color: var(--gray-dark);
+  line-height: 1.65;
+}
+
+/* ==========================================================================
+   8. CTA BANERIS IR FOOTER
+   ========================================================================== */
+.cta-banner {
+  padding: 90px 0;
+  text-align: center;
+}
+
+.cta-inner h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.cta-inner p {
+  color: var(--gray-dark);
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.footer {
+  padding: 40px 0;
+  background-color: var(--white);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--gray-mid);
+}
+
+.footer-sub {
+  color: var(--gray-mid);
+}
+
+/* ==========================================================================
+   9. RESPONSIVE: PLANŠETĖS (iki 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .section,
+  .hero {
+    padding: 70px 0;
+  }
+
+  .hero-grid {
+    grid-template-columns: 260px 1fr;
+    gap: 48px;
+  }
+
+  .image-frame {
+    width: 240px;
+    height: 240px;
+  }
+
+  .hero-heading {
+    font-size: 1.9rem;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+/* ==========================================================================
+   10. RESPONSIVE: TELEFONAI (iki 680px)
+   ========================================================================== */
+@media (max-width: 680px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .section,
+  .hero {
+    padding: 50px 0;
+  }
+
+  .nav-inner {
+    height: auto;
+    padding: 16px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .nav-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .hero-portrait {
+    align-items: flex-start;
+  }
+
+  .image-frame {
+    width: 150px;
+    height: 150px;
+  }
+
+  .hero-heading {
+    font-size: 1.5rem;
+  }
+
+  .hero-lead {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  .quick-specs {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 14px;
+  }
+
+  .btn-dark {
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .link-subtle {
+    text-align: center;
+  }
+
+  .topics-grid,
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .step-item {
+    border-left: 2px solid var(--black);
+    padding-left: 16px;
+  }
+
+  /* KET telefone */
+  .ket-diagram-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .model-card-btn {
+    border-right: none;
+    border-bottom: 1px solid var(--gray-light);
+    padding: 16px 18px;
+  }
+
+  .model-card-btn.active {
+    border-left: 3px solid var(--black);
+    border-bottom: 1px solid var(--gray-light);
+  }
+
+  .ket-detail-box {
+    padding: 24px 18px;
+  }
+
+  .ket-benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .cta-inner h2 {
+    font-size: 1.6rem;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
 }

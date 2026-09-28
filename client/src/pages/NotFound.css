@@ -1,0 +1,27 @@
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--gray-bg);
+  padding: 20px;
+  text-align: center;
+}
+
+.not-found-title {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: var(--black);
+}
+
+.not-found-desc {
+  font-size: 1.1rem;
+  color: var(--gray-dark);
+  margin-bottom: 32px;
+}
+
+.not-found-link {
+  text-decoration: none;
+  display: inline-block;
+}

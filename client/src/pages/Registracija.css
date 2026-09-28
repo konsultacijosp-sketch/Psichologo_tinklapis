@@ -1,0 +1,496 @@
+/*
+==========================================================================
+   1. BENDRI REGISTRACIJOS PUSLAPIO STILIAI
+==========================================================================
+*/
+.registration-page {
+  padding: 60px 0;
+  min-height: 100vh;
+  background-color: var(--gray-bg);
+}
+
+.reg-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.reg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 0;
+  color: var(--gray-dark);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--black);
+}
+
+.lang-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--black);
+  color: var(--black);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-toggle-btn:hover {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+/*
+==========================================================================
+   2. REGISTRACIJOS DĖŽUTĖ IR TEKSTAI
+==========================================================================
+*/
+.reg-box {
+  background-color: var(--white);
+  padding: 40px 50px;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.reg-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.reg-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.reg-subtitle {
+  color: var(--gray-dark);
+  font-size: 1rem;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/*
+==========================================================================
+   3. FORMA IR LAUKELIAI
+==========================================================================
+*/
+.reg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px 16px;
+  border: 1px solid var(--gray-light);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background-color: var(--gray-bg);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--black);
+  background-color: var(--white);
+}
+
+/* Mygtukai */
+.submit-btn {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.btn-dark {
+  background-color: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+  padding: 14px 34px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-dark:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--black);
+}
+
+.btn-dark:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.step-btn {
+  margin-top: 32px;
+}
+
+/*
+==========================================================================
+   4. SĖKMINGO PATVIRTINIMO ŽINUTĖ
+==========================================================================
+*/
+.success-message {
+  padding: 30px 0;
+  text-align: center;
+}
+
+.success-message h3 {
+  font-size: 1.5rem;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+
+.success-message p {
+  color: var(--gray-dark);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/*
+==========================================================================
+   5. SANTRAUKOS DĖŽUTĖ (2 Žingsnis)
+==========================================================================
+*/
+.summary-box {
+  padding: 16px;
+  background-color: var(--gray-bg);
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-label {
+  font-size: 0.85rem;
+  color: var(--gray-dark);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.change-btn {
+  background: none;
+  border: none;
+  color: var(--gray-dark);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.change-btn:hover {
+  color: var(--black);
+}
+
+/*
+==========================================================================
+   6. MĖNESIO KALENDORIAUS (GRID) STILIAI
+==========================================================================
+*/
+.date-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: var(--black);
+}
+
+.date-picker-header button {
+  background: transparent;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  color: var(--black);
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.date-picker-header button:hover:not(:disabled) {
+  background: var(--gray-bg);
+  border-color: var(--black);
+}
+
+.date-picker-header button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Savaitės dienų juosta */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.weekday-cell {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--gray-dark);
+  font-weight: 500;
+}
+
+/* Datų langeliai */
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.date-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1; /* Langeliai tampa tobulais kvadratais */
+  border: 1px solid var(--gray-light);
+  border-radius: 6px;
+  background-color: var(--white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+  padding: 0;
+}
+
+.empty-cell {
+  background: transparent;
+  border: none;
+  pointer-events: none;
+}
+
+.date-cell-num {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--black);
+}
+
+/* Viršutinė spalvų indikatoriaus juostelė */
+.date-cell::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+/* Spalvų reikšmės */
+.date-cell.status-high::before {
+  background-color: #22c55e; /* Laisva - žalia */
+}
+
+.date-cell.status-medium::before {
+  background-color: #f59e0b; /* Liko mažai - geltona */
+}
+
+.date-cell.status-full {
+  opacity: 0.5;
+  background-color: #f9fafb;
+  cursor: not-allowed;
+}
+
+.date-cell.status-full::before {
+  background-color: #ef4444; /* Užimta - raudona */
+}
+
+/* Praėjusios dienos */
+.date-cell.status-past {
+  opacity: 0.3;
+  background-color: #fafafa;
+  cursor: not-allowed;
+}
+.date-cell.status-past::before {
+  display: none; /* Praeities dienoms spalvų nerodome */
+}
+
+.date-cell:hover:not(:disabled) {
+  border-color: var(--black);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Pasirinktas langelis */
+.date-cell.selected {
+  border: 2px solid var(--black);
+  background-color: var(--black);
+}
+.date-cell.selected .date-cell-num {
+  color: var(--white);
+}
+
+/* Legenda apačioje */
+.date-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.75rem;
+  color: var(--gray-dark);
+  margin-top: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legend-dot.status-high {
+  background-color: #22c55e;
+}
+.legend-dot.status-medium {
+  background-color: #f59e0b;
+}
+.legend-dot.status-full {
+  background-color: #ef4444;
+}
+
+/*
+==========================================================================
+   7. LAIKO PASIRINKIMO MYGTUKAI (su vietos laiku)
+==========================================================================
+*/
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.time-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 8px;
+  border: 1px solid var(--gray-light);
+  background-color: var(--white);
+  color: var(--black);
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.time-main {
+  font-size: 1rem;
+}
+
+.time-local {
+  font-size: 0.75rem;
+  color: var(--gray-dark);
+  font-weight: 400;
+}
+
+.time-btn:hover:not(:disabled) {
+  border-color: var(--black);
+}
+
+.time-btn.selected {
+  border: 2px solid var(--black);
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.time-btn.selected .time-local {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.time-btn.booked {
+  background-color: #f5f5f5;
+  color: #bbbbbb;
+  cursor: not-allowed;
+  border: 1px solid var(--gray-light);
+}
+
+/*
+==========================================================================
+   8. ANIMACIJOS IR RESPONSIVE
+==========================================================================
+*/
+.slide-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 680px) {
+  .reg-box {
+    padding: 30px 20px;
+  }
+
+  .date-picker-header {
+    font-size: 0.85rem;
+  }
+
+  .date-cell-num {
+    font-size: 0.9rem;
+  }
+
+  .date-legend {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}

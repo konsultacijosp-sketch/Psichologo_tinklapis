@@ -1,0 +1,43 @@
+/* Pridedame papildomą atitraukimą puslapio apačioje */
+.privacy-page-wrapper {
+  padding-bottom: 100px;
+}
+
+.privacy-box {
+  padding: 40px 50px;
+}
+
+.privacy-title {
+  margin-bottom: 8px;
+}
+
+.privacy-date {
+  color: var(--gray-mid);
+  font-size: 0.85rem;
+  margin-bottom: 40px;
+}
+
+.privacy-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.privacy-heading {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--black);
+}
+
+.privacy-text {
+  color: var(--gray-dark);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Responsyvumas telefonams */
+@media (max-width: 680px) {
+  .privacy-box {
+    padding: 30px 20px;
+  }
+}
