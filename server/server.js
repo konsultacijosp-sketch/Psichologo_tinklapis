@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const Appointment = require("./models/Appointment");
@@ -14,8 +14,19 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// Inicializuojame Resend API klientą su raktu iš Render Environment (EMAIL_PASS kintamojo)
-const resend = new Resend(process.env.EMAIL_PASS);
+// Sugrįžtame prie Nodemailer ir Gmail SMTP
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // true prievadui 465
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, // Čia turi būti Gmail App Password
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
 mongoose
   .connect(MONGO_URI)
@@ -62,7 +73,6 @@ app.get("/api/settings", async (req, res) => {
         weeklySchedule: defaultWeeklySchedule,
       });
     }
-    // Apsauga, jei sena bazė neturi tvarkaraščio
     if (
       !settings.weeklySchedule ||
       Object.keys(settings.weeklySchedule).length === 0
@@ -86,7 +96,6 @@ app.post("/api/settings", async (req, res) => {
     settings.blockedDates = req.body.blockedDates;
     settings.weeklySchedule = req.body.weeklySchedule;
 
-    // Pranešame Mongoose, kad objektas pasikeitė
     settings.markModified("weeklySchedule");
     await settings.save();
 
@@ -125,31 +134,29 @@ app.post("/api/appointments", async (req, res) => {
       clientText = `Hello, ${name},\n\nYour appointment with psychologist Oskaras Jakšaitis-Brežinskas has been successfully confirmed!\n\nDate: ${date}\nTime: ${time}\n\nSee you soon!`;
     }
 
-    // Siunčiame laišką klientui per Resend API
-    try {
-      await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: email,
-        subject: clientSubject,
-        text: clientText,
-      });
-      console.log("Laiškas klientui sėkmingai išsiųstas per Resend!");
-    } catch (mailError) {
-      console.error("Klaida siunčiant laišką klientui:", mailError);
-    }
+    const clientMailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: clientSubject,
+      text: clientText,
+    };
 
-    // Siunčiame pranešimą adminui per Resend API
-    try {
-      await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: process.env.EMAIL_USER,
-        subject: `Nauja registracija: ${name} (${date} ${time})`,
-        text: `Gavote naują vizito registraciją!\n\nVardas: ${name}\nEl. paštas: ${email}\nData: ${date}\nLaikas: ${time}\nPriežastis: ${reason || "Nenurodyta"}\n\nPrisijunkite prie /admin valdymo skydelio peržiūrėti daugiau.`,
-      });
-      console.log("Admin pranešimas sėkmingai išsiųstas per Resend!");
-    } catch (mailError) {
-      console.error("Klaida siunčiant pranešimą adminui:", mailError);
-    }
+    transporter.sendMail(clientMailOptions, (error, info) => {
+      if (error) console.error("Klaida siunčiant laišką klientui:", error);
+      else console.log("Laiškas klientui išsiųstas: " + info.response);
+    });
+
+    const adminMailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: `Nauja registracija: ${name} (${date} ${time})`,
+      text: `Gavote naują vizito registraciją!\n\nVardas: ${name}\nEl. paštas: ${email}\nData: ${date}\nLaikas: ${time}\nPriežastis: ${reason || "Nenurodyta"}\n\nPrisijunkite prie /admin valdymo skydelio peržiūrėti daugiau.`,
+    };
+
+    transporter.sendMail(adminMailOptions, (error, info) => {
+      if (error) console.error("Klaida siunčiant pranešimą adminui:", error);
+      else console.log("Admin pranešimas išsiųstas: " + info.response);
+    });
 
     res.status(201).json({
       message: "Registracija sėkmingai išsaugota ir laiškai išsiųsti!",
