@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 import "./Registracija.css";
 
 function Registracija() {
@@ -41,7 +42,6 @@ function Registracija() {
         setBookedSlots(apptData);
         if (settsData && !settsData.error) {
           setSettings(settsData);
-          // Starto data kalendoriui atverti
           const today = new Date();
           const configuredStart = settsData.startDate
             ? new Date(settsData.startDate)
@@ -119,7 +119,6 @@ function Registracija() {
       ? ["Pr", "An", "Tr", "Kt", "Pn", "Št", "Sk"]
       : ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
-  // --- KIEK LAIKŲ YRA KONKREČIAI DIENAI ---
   const getAvailableSlotsForDate = (dateStr) => {
     if (!settings || !settings.weeklySchedule) return [];
     const dayOfWeek = new Date(dateStr).getDay().toString();
@@ -137,7 +136,7 @@ function Registracija() {
       return "past";
 
     const dailySlots = getAvailableSlotsForDate(dateStr);
-    if (dailySlots.length === 0) return "past"; // Administratorius nepridėjo valandų šiai dienai (nedarbo)
+    if (dailySlots.length === 0) return "past";
 
     const bookedCount = bookedSlots.filter(
       (slot) => slot.date === dateStr,
@@ -213,38 +212,66 @@ function Registracija() {
     setStep(2);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/appointments`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date: selectedDate,
-        time: selectedTime,
-        name,
-        email,
-        reason,
-        language,
-      }),
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Klaida registruojantis");
-        return data;
-      })
-      .then(() => {
-        localStorage.setItem("savedName", name);
-        localStorage.setItem("savedEmail", email);
-        setSuccess(true);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setErrorMessage(err.message);
-        setLoading(false);
-      });
+    try {
+      // 1. Išsaugome registraciją duomenų bazėje per serverį
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/appointments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            date: selectedDate,
+            time: selectedTime,
+            name,
+            email,
+            reason,
+            language,
+          }),
+        },
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Klaida registruojantis");
+
+      // Išsaugome naršyklėje
+      localStorage.setItem("savedName", name);
+      localStorage.setItem("savedEmail", email);
+
+      // Klientui iškart parodome sėkmės pranešimą (jokio laukimo!)
+      setSuccess(true);
+      setLoading(false);
+
+      // 2. FONE (užkulisiuose) išsiunčiame laišką tik klientui per EmailJS
+      const emailParamsClient = {
+        to_email: email,
+        to_name: name,
+        subject:
+          language === "en"
+            ? "Booking Confirmation – Psychologist Consultation"
+            : "Registracijos patvirtinimas – Psichologo konsultacija",
+        message:
+          language === "en"
+            ? `Hello, ${name},\n\nYour appointment with psychologist Oskaras Jakšaitis-Brežinskas has been successfully confirmed!\n\nDate: ${selectedDate}\nTime: ${selectedTime}\n\nSee you soon!`
+            : `Sveiki, ${name},\n\nJūsų registracija pas psichologą Oskarą Jakšaitį-Brežinską sėkmingai patvirtinta!\n\nData: ${selectedDate}\nLaikas: ${selectedTime}\n\nIki susitikimo!`,
+      };
+
+      emailjs
+        .send(
+          "service_hicdygg",
+          "template_472tz1f",
+          emailParamsClient,
+          "oloR28AHavhZ9kbTM",
+        )
+        .catch((err) => console.error("EmailJS kliento klaida:", err));
+    } catch (err) {
+      setErrorMessage(err.message);
+      setLoading(false);
+    }
   };
 
   const toggleLanguage = () => {
@@ -255,7 +282,7 @@ function Registracija() {
 
   const userLocalTimeText = getLocalTimeStr(selectedDate, selectedTime);
   const calendarDays = generateCalendarDays();
-  const activeDateSlots = getAvailableSlotsForDate(selectedDate); // Paimam laikus tik šiai datai
+  const activeDateSlots = getAvailableSlotsForDate(selectedDate);
 
   return (
     <div className="registration-page">
@@ -410,7 +437,6 @@ function Registracija() {
                           : "Pasirinkite laiką (Lietuvos laiku)"}
                       </label>
                       <div className="time-grid">
-                        {/* Rodome tik tai dienai priskirtus laikus iš Admino nustatymų! */}
                         {activeDateSlots.map((time) => {
                           const booked = isSlotBooked(selectedDate, time);
                           const isSelected = selectedTime === time;

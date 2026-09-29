@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const Appointment = require("./models/Appointment");
@@ -13,20 +12,6 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
-
-// Sugrįžtame prie Nodemailer ir Gmail SMTP
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // true prievadui 465
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // Čia turi būti Gmail App Password
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
 
 mongoose
   .connect(MONGO_URI)
@@ -117,7 +102,7 @@ app.get("/api/appointments", async (req, res) => {
 
 app.post("/api/appointments", async (req, res) => {
   try {
-    const { date, time, name, email, reason, language } = req.body;
+    const { date, time, name, email, reason } = req.body;
     const existing = await Appointment.findOne({ date, time });
     if (existing) {
       return res.status(400).json({ error: "Šis laikas jau yra užimtas." });
@@ -126,40 +111,9 @@ app.post("/api/appointments", async (req, res) => {
     const newAppointment = new Appointment({ date, time, name, email, reason });
     await newAppointment.save();
 
-    let clientSubject = "Registracijos patvirtinimas – Psichologo konsultacija";
-    let clientText = `Sveiki, ${name},\n\nJūsų registracija pas psichologą Oskarą Jakšaitį-Brežinską sėkmingai patvirtinta!\n\nData: ${date}\nLaikas: ${time}\n\nIki susitikimo!`;
-
-    if (language === "en") {
-      clientSubject = "Booking Confirmation – Psychologist Consultation";
-      clientText = `Hello, ${name},\n\nYour appointment with psychologist Oskaras Jakšaitis-Brežinskas has been successfully confirmed!\n\nDate: ${date}\nTime: ${time}\n\nSee you soon!`;
-    }
-
-    const clientMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: clientSubject,
-      text: clientText,
-    };
-
-    transporter.sendMail(clientMailOptions, (error, info) => {
-      if (error) console.error("Klaida siunčiant laišką klientui:", error);
-      else console.log("Laiškas klientui išsiųstas: " + info.response);
-    });
-
-    const adminMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: `Nauja registracija: ${name} (${date} ${time})`,
-      text: `Gavote naują vizito registraciją!\n\nVardas: ${name}\nEl. paštas: ${email}\nData: ${date}\nLaikas: ${time}\nPriežastis: ${reason || "Nenurodyta"}\n\nPrisijunkite prie /admin valdymo skydelio peržiūrėti daugiau.`,
-    };
-
-    transporter.sendMail(adminMailOptions, (error, info) => {
-      if (error) console.error("Klaida siunčiant pranešimą adminui:", error);
-      else console.log("Admin pranešimas išsiųstas: " + info.response);
-    });
-
     res.status(201).json({
-      message: "Registracija sėkmingai išsaugota ir laiškai išsiųsti!",
+      message: "Registracija sėkmingai išsaugota!",
+      appointment: newAppointment,
     });
   } catch (error) {
     console.error("Klaida išsaugant:", error);
